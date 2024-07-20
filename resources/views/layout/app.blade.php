@@ -96,7 +96,7 @@
             </div>
           </div>
         <div rel="preload"  class="page-body">
-            @yield('isi')
+            @yield('isi') 
         </div>
     </div>
 </body>
