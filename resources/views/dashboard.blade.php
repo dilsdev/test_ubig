@@ -3,6 +3,22 @@
 @section('page-pretitle', 'Dashboard admin')    
 @section('page-title', 'Sistem aplikasi data siswa')    
 @section('isi')
+@php
+$laki_laki=0;
+$perempuan=0;
+@endphp
+@foreach ($jeniskelamin as $jenis)
+  @if ($jenis['gender'] == 'Laki-laki')
+      @php
+          $laki_laki += $jenis['total'];
+      @endphp
+  @endif
+  @if ($jenis['gender'] == 'Perempuan')
+      @php
+          $perempuan += $jenis['total'];
+      @endphp
+  @endif
+@endforeach
 <div class="col-12">
     <div class="row row-cards">
       <div class="col-sm-6 col-lg-4">
@@ -19,7 +35,7 @@
                   Total
                 </div>
                 <div class="text-secondary">
-                  60 Siswa
+                  {{ $laki_laki + $perempuan }} Siswa
                 </div>
               </div>
             </div>
@@ -40,7 +56,7 @@
                   Laki-Laki
                 </div>
                 <div class="text-secondary">
-                  50
+                  {{ $laki_laki }} Siswa
                 </div>
               </div>
             </div>
@@ -61,7 +77,7 @@
                   Perempuan
                 </div>
                 <div class="text-secondary">
-                  10
+                  {{ $perempuan }} Siswa
                 </div>
               </div>
             </div>
@@ -73,6 +89,9 @@
   <div class="row mt-2 row-cards">
       <div class="col-6">
         <div class="card">
+          <div class="card-header w-full d-flex aligh-items-center justify-content-center">
+            <h2 class="text-secondary m-0">Persentase siswa berdasarkan jenis kelamin</h2>
+          </div>
           <div class="card-body">
           <div class="row row-cards">
             <div id="jenis-kelamin" class="chart-lg"></div>
@@ -82,6 +101,9 @@
       </div>
       <div class="col-6">
         <div class="card">
+          <div class="card-header w-full d-flex aligh-items-center justify-content-center">
+            <h2 class="text-secondary m-0">Persentase asal kota</h2>
+          </div>
           <div class="card-body">
           <div class="row row-cards">
             <div id="kota" class="chart-lg"></div>
@@ -104,69 +126,83 @@
   
   
   <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/libs/apexcharts/dist/apexcharts.min.js" defer></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      window.ApexCharts && (new ApexCharts(document.getElementById('jenis-kelamin'), {
-        chart: {
-          type: "donut",
-          fontFamily: 'inherit',
-          height: 240,
-          sparkline: {
-            enabled: true
-          },
-          animations: {
-            enabled: false
-          },
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var jeniskelamin = @json($jeniskelamin); 
+
+    
+    var genders = jeniskelamin.map(jenis => jenis.gender);
+    var totals = jeniskelamin.map(jenis => jenis.total);
+
+    
+    var options = {
+      chart: {
+        type: 'donut',
+        fontFamily: 'inherit',
+        height: 240,
+        sparkline: {
+          enabled: true
         },
-        fill: {
-          opacity: 1,
+        animations: {
+          enabled: false
         },
-        series: [44, 55, 12, 10],
-        labels: ["Direct", "Affilliate", "E-mail", "Other"],
-        tooltip: {
-          theme: 'dark'
+      },
+      series: totals, 
+      labels: genders, 
+      fill: {
+        opacity: 1,
+      },
+      tooltip: {
+        theme: 'dark',
+        fillSeriesColor: false 
+      },
+      grid: {
+        strokeDashArray: 2,
+      },
+      colors: ['#008FFB', '#FF4560'], 
+      legend: {
+        show: true,
+        position: 'bottom',
+        offsetY: 12,
+        markers: {
+          width: 10,
+          height: 10,
+          radius: 100,
         },
-        grid: {
-          strokeDashArray: 4,
+        itemMargin: {
+          horizontal: 8,
+          vertical: 8
         },
-        colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor("primary", 0.6), tabler.getColor("gray-300")],
-        legend: {
-          show: true,
-          position: 'bottom',
-          offsetY: 12,
-          markers: {
-            width: 10,
-            height: 10,
-            radius: 100,
-          },
-          itemMargin: {
-            horizontal: 8,
-            vertical: 8
-          },
-        },
-        tooltip: {
-          fillSeriesColor: false
-        },
-      })).render();
-    });
-  </script>
+      },
+    };
+
+    
+    if (window.ApexCharts) {
+      var chart = new ApexCharts(document.getElementById('jenis-kelamin'), options);
+      chart.render();
+    }
+  });
+</script>
+
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
   <script>
-    
+    var kotas = @json($kotas);
+    var kota = kotas.map(kota => kota.kota);
+    var totals = kotas.map(kota => kota.total);
       
     var options = {
-          series: [44, 55, 13, 43, 22],
+          series: totals,
           chart: {
           width: 380,
           type: 'pie',
         },
-        labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+        labels: kota,
         responsive: [{
           breakpoint: 480,
           options: {
             chart: {
-              width: 200
+              width: 100
             },
             legend: {
               position: 'bottom'
@@ -177,16 +213,17 @@
 
         var chart = new ApexCharts(document.querySelector("#kota"), options);
         chart.render();
-      
-      
-    
   </script>
 
 <script>
-  var options = {
+    var students = @json($students);
+
+    var years = students.map(student => student.year);
+    var totals = students.map(student => student.total);
+    var options = {
     series: [{
       name: 'Jumlah Siswa',
-      data: [50, 75, 100, 80, 60, 90, 110, 95, 85, 70, 65, 40] 
+      data: totals 
     }],
     chart: {
       type: 'bar',
@@ -216,7 +253,7 @@
       }
     },
     xaxis: {
-      categories: ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011"], 
+      categories: years, 
       title: {
         text: 'Tahun Kelahiran'
       }

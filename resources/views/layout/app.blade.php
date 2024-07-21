@@ -97,7 +97,10 @@
                                       Admin
                                   </span></a>
                                 <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="#">Logout</a>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Logout</button>
+                                    </form>
                                 </div>
                               </div>
                             </span>

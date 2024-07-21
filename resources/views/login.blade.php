@@ -22,25 +22,48 @@
                         </div>
                         <div class="card card-md">
                             <div class="card-body">
+                                @if ($errors->any())
+                                    <div class="alert alert-danger" role="alert">
+                                        <div class="d-flex">
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon alert-icon">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                                    <path d="M12 8v4"></path>
+                                                    <path d="M12 16h.01"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                @foreach ($errors->all() as $error)
+                                                    <p style="color: red; margin: 0">{{ $error }}</p>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                                 <h2 class="h2 text-center mb-4">Login admin</h2>
-                                <form action="./" method="get" autocomplete="off" novalidate="">
+                                <form action="login" method="post" autocomplete="off" novalidate="">
+                                    @csrf
                                     <div class="mb-3">
                                         <label class="form-label">Email address</label>
-                                        <input type="email" class="form-control" placeholder="your@email.com"
-                                            autocomplete="off" fdprocessedid="1z6uo">
+                                        <input type="email" name="email" class="form-control"
+                                            placeholder="your@email.com" autocomplete="off" fdprocessedid="1z6uo">
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label">
                                             Password
                                         </label>
                                         <div class="input-group input-group-flat">
-                                            <input type="password" class="form-control" placeholder="Your password"
-                                                autocomplete="off" fdprocessedid="trteg">
+                                            <input type="password" name="password" class="form-control"
+                                                placeholder="Your password" autocomplete="off" fdprocessedid="trteg">
                                         </div>
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-check">
-                                            <input type="checkbox" class="form-check-input">
+                                            <input type="checkbox" name="remember" class="form-check-input">
                                             <span class="form-check-label">Remember me on this device</span>
                                         </label>
                                     </div>
@@ -132,7 +155,8 @@
                             fill="#DADBE0"></path>
                         <path
                             d="M399.276 212.824C399.367 213.091 399.472 213.354 399.591 213.61C399.065 213.263 398.564 212.88 398.089 212.466C398.132 212.395 398.518 212.509 399.276 212.824Z"
-                            fill="#FFCB9D" style="fill: #FFCB9D; fill: var(--tblr-illustrations-skin, #FFCB9D);"></path>
+                            fill="#FFCB9D" style="fill: #FFCB9D; fill: var(--tblr-illustrations-skin, #FFCB9D);">
+                        </path>
                         <path
                             d="M265.755 537.015C265.755 539.704 317.627 541.864 381.599 541.864C445.571 541.864 497.443 539.704 497.443 537.015C497.443 534.326 445.571 532.181 381.599 532.181C317.627 532.181 265.755 534.341 265.755 537.015Z"
                             fill="#A6A9B3" class="tblr-illustrations-boy-with-key-d"></path>
@@ -144,13 +168,15 @@
                             fill="black" opacity="0.1"></path>
                         <path
                             d="M407.628 116.159C414.058 116.159 419.27 110.671 419.27 103.902C419.27 97.1328 414.058 91.6454 407.628 91.6454C401.199 91.6454 395.987 97.1328 395.987 103.902C395.987 110.671 401.199 116.159 407.628 116.159Z"
-                            fill="#FFCB9D" style="fill: #FFCB9D; fill: var(--tblr-illustrations-skin, #FFCB9D);"></path>
+                            fill="#FFCB9D" style="fill: #FFCB9D; fill: var(--tblr-illustrations-skin, #FFCB9D);">
+                        </path>
                         <path
                             d="M456.969 112.125C456.98 114.289 456.784 116.449 456.383 118.576L443.511 118.833C443.074 116.624 442.859 114.377 442.868 112.125C442.855 109.442 443.167 106.768 443.797 104.159L455.968 103.902C456.647 106.59 456.983 109.353 456.969 112.125Z"
                             fill="black" opacity="0.1"></path>
                         <path
                             d="M460.902 91.6454H456.082C450.94 91.6454 446.772 95.8138 446.772 100.956V205.273C446.772 210.415 450.94 214.583 456.082 214.583H460.902C466.044 214.583 470.212 210.415 470.212 205.273V100.956C470.212 95.8138 466.044 91.6454 460.902 91.6454Z"
-                            fill="#FFCB9D" style="fill: #FFCB9D; fill: var(--tblr-illustrations-skin, #FFCB9D);"></path>
+                            fill="#FFCB9D" style="fill: #FFCB9D; fill: var(--tblr-illustrations-skin, #FFCB9D);">
+                        </path>
                         <path
                             d="M439.092 136.324C438.368 135.873 437.526 135.649 436.673 135.679C435.821 135.709 434.997 135.993 434.306 136.494C433.616 136.995 433.09 137.69 432.797 138.491C432.503 139.292 432.455 140.162 432.659 140.991C432.862 141.819 433.308 142.568 433.939 143.142C434.571 143.716 435.358 144.088 436.202 144.212C437.046 144.336 437.908 144.205 438.678 143.837C439.447 143.469 440.089 142.88 440.522 142.145C441.091 141.18 441.259 140.031 440.992 138.943C440.725 137.856 440.043 136.916 439.092 136.324ZM452.822 104.689C448.483 113.27 444.155 121.808 439.836 130.303L444.412 133.163L459.615 109.98L452.822 104.689ZM455.081 149.095C455.701 148.788 456.368 148.589 457.055 148.509C457.648 148.43 458.249 148.43 458.843 148.509C459.395 148.581 459.941 148.701 460.473 148.867L461.903 149.31C462.34 149.44 462.792 149.517 463.248 149.539C463.67 149.564 464.092 149.486 464.478 149.31C464.765 149.173 465.019 148.974 465.219 148.726C465.42 148.479 465.562 148.19 465.636 147.88C465.786 147.217 465.694 146.522 465.379 145.92C465.052 145.219 464.518 144.635 463.848 144.247C463.136 143.849 462.334 143.637 461.517 143.632L462.118 138.426C463.837 138.462 465.516 138.956 466.98 139.857C468.59 140.898 469.858 142.39 470.627 144.147C471.251 145.385 471.612 146.739 471.686 148.123C471.759 149.332 471.475 150.535 470.87 151.584C470.193 152.682 469.195 153.546 468.01 154.058C467.28 154.417 466.498 154.658 465.693 154.773C465.025 154.881 464.344 154.881 463.677 154.773C463.047 154.645 462.461 154.487 461.889 154.316L460.259 153.786C459.773 153.623 459.268 153.522 458.757 153.486C458.261 153.471 457.77 153.579 457.327 153.801L455.081 149.095ZM447.845 155.474C447.644 155.062 447.539 154.61 447.539 154.151C447.539 153.693 447.644 153.24 447.845 152.828C448.221 151.948 448.915 151.243 449.79 150.855C450.633 150.419 451.612 150.327 452.521 150.597C452.962 150.722 453.369 150.943 453.712 151.245C454.056 151.547 454.329 151.921 454.509 152.342C454.721 152.75 454.84 153.2 454.86 153.659C454.88 154.119 454.799 154.577 454.624 155.002C454.253 155.877 453.562 156.578 452.693 156.961C451.841 157.382 450.865 157.478 449.947 157.233C449.485 157.121 449.055 156.905 448.69 156.6C448.325 156.294 448.036 155.909 447.845 155.474Z"
                             fill="#0455A4"
@@ -161,7 +187,8 @@
                             fill="black" opacity="0.1"></path>
                         <path
                             d="M471.857 202.884C471.028 206.474 466.423 207.275 460.802 208.533C456.746 209.287 452.83 210.656 449.189 212.595C447.25 213.706 445.494 215.11 443.983 216.757C440.25 220.847 440.05 224.38 435.216 226.611C431.812 228.083 428.005 228.341 424.433 227.34C415.036 224.666 409.087 213.038 410.002 202.87C410.115 201.554 410.35 200.252 410.703 198.98L419.542 193.559C419.928 201.454 424.204 208.262 430.568 211.05C434.819 212.85 439.568 213.098 443.983 211.751C446.447 211.017 448.612 209.513 450.161 207.461C451.605 205.402 452.388 202.953 452.407 200.439L464.964 199.852L471.514 199.552C471.977 200.599 472.097 201.765 471.857 202.884Z"
-                            fill="#FFCB9D" style="fill: #FFCB9D; fill: var(--tblr-illustrations-skin, #FFCB9D);"></path>
+                            fill="#FFCB9D" style="fill: #FFCB9D; fill: var(--tblr-illustrations-skin, #FFCB9D);">
+                        </path>
                         <path
                             d="M430.554 211.065C429.758 210.72 428.992 210.309 428.266 209.835H410.388C411.947 217.801 417.139 225.281 424.418 227.354C427.99 228.355 431.797 228.097 435.202 226.625C439.178 224.794 440.022 222.063 442.353 218.874V212.223C438.394 213.046 434.277 212.642 430.554 211.065Z"
                             fill="black" opacity="0.1"></path>
