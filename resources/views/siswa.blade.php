@@ -5,23 +5,26 @@
 @section('isi')
     <div class="card">
         <div class="card-header  d-flex justify-content-between align-items-center">
-            <form class="d-flex gap-4">
-                @csrf
+            <form class="d-flex gap-4" action="/siswa">
                 <div>
                     <div class="form-label">Jenis Kelamin</div>
-                    <select name="jenis_kelamin" class="form-select form-select-sm" fdprocessedid="g5c77a">
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select name="jk" class="form-select form-select-sm" fdprocessedid="g5c77a">
+                        <option value="">all    </option>
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
                     </select>
                 </div>
                 <div>
                     <div class="form-label">Kota</div>
-                    <select name="kota" class="form-select form-select-sm" fdprocessedid="g5c77a">
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select name="k" class="form-select form-select-sm" fdprocessedid="g5c77a">
+                        <option value="">all</option>
+                        @foreach ($kotas as $kota) 
+                            <option value="{{ $kota->nama }}">{{ $kota->nama }}</option>
+                        @endforeach
                     </select>
+                </div>
+                <div class="d-flex align-items-end">
+                    <button class="btn btn-sm" type="submit">aply</button>
                 </div>
             </form>
             <a href="#" class="btn" data-bs-toggle="modal" data-bs-target="#modal-large">
@@ -35,7 +38,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="">
+                            <form action="{{ route('tambahsiswa') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
                                     <label class="form-label">NIS</label>
@@ -53,7 +56,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <div class="form-label">Jenis Kelamin</div>
-                                    <select name="kelamin" class="form-select" fdprocessedid="3kru49h">
+                                    <select name="jenis_kelamin" class="form-select" fdprocessedid="3kru49h">
                                         <option value="Laki-Laki">Laki-Laki</option>
                                         <option value="Perempuan">Perempuan</option>
                                     </select>
@@ -65,9 +68,10 @@
                                 </div>
                                 <div class="mb-3">
                                     <div class="form-label">Kota</div>
-                                    <select name="kota" class="form-select" fdprocessedid="3kru49h">
-                                        {{-- <option value="Laki-Laki">Laki-Laki</option>
-                                        <option value="Perempuan">Perempuan</option> --}}
+                                    <select name="id_kota" class="form-select" fdprocessedid="3kru49h">
+                                        @foreach ($kotas as $kota) 
+                                        <option value="{{ $kota->id }}">{{ $kota->nama }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="modal-footer">
@@ -128,27 +132,28 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($siswas as $key => $siswa)
                     <tr>
-                        <td><span class="text-secondary">001401</span></td>
-                        <td>Design Works</td>
+                        <td><span class="text-secondary">{{ $key+1 }}</span></td>
+                        <td>{{ $siswa->nis }}</td>
+                        <td>{{ $siswa->namasiswa }}</td>
                         <td>
-                            <span class="flag flag-xs flag-country-us me-2"></span>
-                            Carlson Limited
+                            {{ $siswa->tanggal_lahir }}
                         </td>
                         <td>
-                            87956621
+                            {{ $siswa->jenis_kelamin }}
                         </td>
                         <td>
-                            15 Dec 2017
+                            {{ $siswa->alamat }}
                         </td>
                         <td>
-                            Paid
+                            {{ $siswa->kota }}
                         </td>
-                        <td>$887</td>
                         <td>
-                            hapus
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#666666"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

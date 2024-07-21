@@ -12,5 +12,7 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 Route::middleware(['admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/siswa', [AdminSiswaController::class, 'index'])->name('siswa');
+    Route::post('/siswa', [AdminSiswaController::class, 'store'])->name('tambahsiswa');
     Route::get('/kota', [AdminKotaController::class, 'index'])->name('kota');
+    Route::post('/kota', [AdminKotaController::class, 'store'])->name('tambahkota');
 });
