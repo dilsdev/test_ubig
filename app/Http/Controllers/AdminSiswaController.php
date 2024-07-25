@@ -64,7 +64,7 @@ class AdminSiswaController extends Controller
                     ->join('kotas', 'kotas.id', '=', 'siswas.id_kota')
                     ->when($query, function ($queryBuilder, $query) {
                         return $queryBuilder->where(function($subQuery) use ($query) {
-                            $subQuery->where('siswas.nis', 'siswas.id', 'LIKE', '%' . $query . '%');
+                            $subQuery->whereRaw('siswas.nis LIKE ?', ['%' . $query . '%']);
                         });
                     })
                     ->orderBy('siswas.created_at', 'desc')
